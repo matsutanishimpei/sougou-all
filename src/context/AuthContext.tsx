@@ -87,7 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Redirect user to GitHub OAuth Page
   const loginWithGitHub = useCallback(async () => {
     dispatch({ type: 'LOGIN_START' });
-    const clientId = 'Ov23liFWupK3e2e4v6IF';
+    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID || 'Ov23liFWupK3e2e4v6IF';
     const redirectUri = window.location.origin;
     window.location.href =
       `https://github.com/login/oauth/authorize` +
