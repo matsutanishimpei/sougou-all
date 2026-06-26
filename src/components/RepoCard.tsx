@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Lock,
   Calendar,
+  Pin,
 } from 'lucide-react';
 import type { Repository } from '../types';
 
@@ -89,9 +90,11 @@ function DescriptionTooltip({ text }: { text: string }) {
 
 interface RepoCardProps {
   repo: Repository;
+  isPinned: boolean;
+  onTogglePin: () => void;
 }
 
-export default function RepoCard({ repo }: RepoCardProps) {
+export default function RepoCard({ repo, isPinned, onTogglePin }: RepoCardProps) {
   const displayLang = repo.language && repo.language !== 'null' ? repo.language : 'N/A';
   const langClass = getLanguageClass(repo.language);
 
@@ -143,15 +146,30 @@ export default function RepoCard({ repo }: RepoCardProps) {
   return (
     <article className={`repo-card ${repo.deploy_type} ${repo.visibility === 'private' ? 'repo-card--private' : ''}`}>
       <div className="card-header">
-        <a
-          href={repo.html_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="repo-title"
-          title="GitHubで開く"
-        >
-          {repo.name}
-        </a>
+        <div className="repo-title-wrapper">
+          <a
+            href={repo.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="repo-title"
+            title="GitHubで開く"
+          >
+            {repo.name}
+          </a>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onTogglePin();
+            }}
+            className={`pin-btn ${isPinned ? 'pinned' : ''}`}
+            title={isPinned ? 'ピン留めを解除' : 'ピン留めする'}
+            aria-label={isPinned ? 'Unpin repository' : 'Pin repository'}
+            type="button"
+          >
+            <Pin size={16} fill={isPinned ? 'currentColor' : 'none'} />
+          </button>
+        </div>
         <div className="card-badges">
           {repo.visibility === 'private' && (
             <span className="deploy-badge private-badge">
