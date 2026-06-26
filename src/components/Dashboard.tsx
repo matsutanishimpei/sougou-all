@@ -17,7 +17,6 @@ import {
   Globe,
   Laptop,
   Lock,
-  LogOut,
   Loader2,
   Folder,
   Pin,
@@ -219,9 +218,9 @@ export default function Dashboard() {
     const names: Record<FilterType, string> = {
       all: 'すべて',
       cloudflare: 'Cloudflare',
-      other: '他デプロイ済',
-      none: '未デプロイ・ツール',
-      private: 'プライベート',
+      other: '他デプロイ',
+      none: 'ツール他',
+      private: '非公開',
     };
     return names[f];
   };
@@ -255,42 +254,31 @@ export default function Dashboard() {
             <div className="profile-info">
               <div className="username-wrapper">
                 <h1>{user?.displayName || 'matsutanishimpei'}</h1>
+                {isAuthenticated && <Lock size={12} style={{ color: 'var(--private-color)', marginLeft: '4px' }} />}
               </div>
-              <p className="subtitle">Developer Hub</p>
-              
-              {isAuthenticated ? (
-                <span className="auth-badge">
-                  <Lock size={12} /> Authenticated
-                </span>
-              ) : (
-                <span className="verified-badge">✓ Public View</span>
-              )}
-
-              <div className="profile-links">
+              <div className="profile-actions">
                 <a
                   href="https://github.com/matsutanishimpei"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-link"
+                  className="profile-action-link"
                 >
-                  GitHub Profile
+                  GitHub
                 </a>
                 {isAuthenticated && (
-                  <button onClick={logout} className="social-link logout-btn" type="button">
-                    <LogOut size={14} /> ログアウト
+                  <button onClick={logout} className="profile-action-link logout-btn" type="button">
+                    ログアウト
                   </button>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="login-divider" style={{ margin: '1rem 0' }} />
-
           {/* Controls: Search */}
           <div className="sidebar-section">
             <h2 className="sidebar-section-title">リポジトリ検索</h2>
             <div className="search-wrapper">
-              <Search size={18} className="search-icon" />
+              <Search size={16} className="search-icon" />
               <input
                 type="text"
                 value={searchQuery}
@@ -301,7 +289,7 @@ export default function Dashboard() {
               />
               {searchQuery && (
                 <button onClick={() => setSearchQuery('')} className="clear-btn" aria-label="Clear Search" type="button">
-                  <X size={16} />
+                  <X size={14} />
                 </button>
               )}
             </div>
@@ -318,7 +306,7 @@ export default function Dashboard() {
                   onClick={() => setActiveFilter(f)}
                   type="button"
                 >
-                  <span>{getFilterLabel(f)}</span>
+                  <span className="filter-label-text">{getFilterLabel(f)}</span>
                   <span className="filter-count-badge">{filterCounts[f]}</span>
                 </button>
               ))}
@@ -328,9 +316,7 @@ export default function Dashboard() {
                   onClick={() => setActiveFilter('private')}
                   type="button"
                 >
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <Lock size={14} /> プライベート
-                  </span>
+                  <span className="filter-label-text">{getFilterLabel('private')}</span>
                   <span className="filter-count-badge">{filterCounts.private}</span>
                 </button>
               )}
