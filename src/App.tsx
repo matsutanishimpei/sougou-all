@@ -1,7 +1,8 @@
 /**
  * App root - Switches between LoginScreen and Dashboard based on auth state.
  */
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthProvider';
+import { useAuth } from './hooks/useAuth';
 import LoginScreen from './components/LoginScreen';
 import Dashboard from './components/Dashboard';
 import './index.css';

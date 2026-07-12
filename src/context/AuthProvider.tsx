@@ -1,21 +1,14 @@
 /**
- * AuthContext - GitHub OAuth authentication state management.
+ * AuthProvider - GitHub OAuth authentication provider component.
  *
  * Handles actual GitHub OAuth flow including redirect, code exchange via local proxy,
  * user profile retrieval from GitHub API, and persistence via localStorage.
  */
-import { createContext, useContext, useReducer, useCallback, useEffect, type ReactNode } from 'react';
+import { useReducer, useCallback, useEffect, type ReactNode } from 'react';
 import type { UserProfile } from '../types';
+import { AuthContext, type AuthState } from './AuthContext';
 
 // ── State & Actions ──────────────────────────────────────────────────
-
-interface AuthState {
-  user: UserProfile | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  /** GitHub access token – used for private repo API calls. */
-  accessToken: string | null;
-}
 
 type AuthAction =
   | { type: 'LOGIN_START' }
@@ -53,15 +46,6 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
       return state;
   }
 }
-
-// ── Context ──────────────────────────────────────────────────────────
-
-interface AuthContextValue extends AuthState {
-  loginWithGitHub: () => Promise<void>;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null);
 
 // Helper to fetch profile from GitHub API
 async function fetchGitHubProfile(token: string): Promise<UserProfile> {
@@ -171,14 +155,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-// ── Hook ─────────────────────────────────────────────────────────────
-
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error('useAuth must be used within an <AuthProvider>');
-  }
-  return ctx;
 }

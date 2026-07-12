@@ -8,7 +8,6 @@
  *  - Cognitive chunking: Repositories are grouped by deployment category under clear headers.
  *  - Direct visual indicators for status and profile.
  */
-import { useState, useEffect, useMemo } from 'react';
 import {
   Search,
   X,
@@ -20,199 +19,37 @@ import {
   Loader2,
   Folder,
   Pin,
+  AlertTriangle,
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { PUBLIC_REPO_DATA } from '../data/publicRepos';
-import { PRIVATE_REPO_DATA } from '../data/privateRepos';
+import { useAuth } from '../hooks/useAuth';
+import { useRepositoryManager } from '../hooks/useRepositoryManager';
 import RepoCard from './RepoCard';
-import type { Repository, FilterType, SortType } from '../types';
-
-// ── GitHub API fetch helper ─────────────────────────────────────────
-
-async function fetchRepos(token?: string | null): Promise<Repository[]> {
-  const url = token
-    ? 'https://api.github.com/user/repos?per_page=100&affiliation=owner,collaborator'
-    : 'https://api.github.com/users/matsutanishimpei/repos?per_page=100';
-
-  const headers: Record<string, string> = {
-    Accept: 'application/vnd.github+json',
-  };
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const res = await fetch(url, { headers });
-  if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-  const raw: any[] = await res.json();
-
-  return raw.map((r) => {
-    const homepage: string = r.homepage || '';
-    let deploy_type: Repository['deploy_type'] = 'none';
-    if (homepage) {
-      deploy_type =
-        homepage.includes('workers.dev') || homepage.includes('pages.dev')
-          ? 'cloudflare'
-          : 'other';
-    }
-    return {
-      name: r.name,
-      description: r.description || '説明なし',
-      html_url: r.html_url,
-      homepage,
-      language: r.language || 'N/A',
-      updated_at: r.updated_at ? r.updated_at.substring(0, 10) : '',
-      deploy_type,
-      release_url: '',
-      release_tag: '',
-      open_issues_count: r.open_issues_count || 0,
-      visibility: r.private ? ('private' as const) : ('public' as const),
-    };
-  });
-}
+import type { FilterType, SortType } from '../types';
 
 // ── Component ───────────────────────────────────────────────────────
 
 export default function Dashboard() {
-  const { user, logout, isAuthenticated, accessToken } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
 
-  // Repository state
-  const [repos, setRepos] = useState<Repository[]>([]);
-  const [isLoadingRepos, setIsLoadingRepos] = useState(true);
-
-  // Controls
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
-  const [sortBy, setSortBy] = useState<SortType>('updated');
-
-  // Pinned repositories state
-  const [pinnedRepos, setPinnedRepos] = useState<string[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem('pinned_repos') || '[]');
-    } catch {
-      return [];
-    }
-  });
-
-  // Persist pinned repos to localStorage
-  useEffect(() => {
-    localStorage.setItem('pinned_repos', JSON.stringify(pinnedRepos));
-  }, [pinnedRepos]);
-
-  const handleTogglePin = (name: string) => {
-    setPinnedRepos((prev) =>
-      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
-    );
-  };
-
-  // Fetch live data on mount / auth state change
-  useEffect(() => {
-    setIsLoadingRepos(true);
-    fetchRepos(accessToken)
-      .then((data) => {
-        setRepos(data);
-        setIsLoadingRepos(false);
-      })
-      .catch((err) => {
-        console.warn('GitHub API fetch failed, using static fallback:', err);
-        const fallback = isAuthenticated
-          ? [...PUBLIC_REPO_DATA, ...PRIVATE_REPO_DATA]
-          : PUBLIC_REPO_DATA;
-        setRepos(fallback);
-        setIsLoadingRepos(false);
-      });
-  }, [accessToken, isAuthenticated]);
-
-  const allRepos = repos;
-
-  // ── Feedforward Counts for Filter Sidebar ──
-  const filterCounts = useMemo(() => {
-    const counts = {
-      all: allRepos.length,
-      cloudflare: allRepos.filter((r) => r.deploy_type === 'cloudflare').length,
-      other: allRepos.filter((r) => r.deploy_type === 'other').length,
-      none: allRepos.filter((r) => r.deploy_type === 'none').length,
-      private: allRepos.filter((r) => r.visibility === 'private').length,
-    };
-    return counts;
-  }, [allRepos]);
-
-  // ── Stats Summary Metrics ──
-  const stats = useMemo(() => {
-    const total = allRepos.length;
-    const cloudflare = filterCounts.cloudflare;
-    const other = filterCounts.other;
-    const privateCount = filterCounts.private;
-    const languages = new Set<string>();
-    allRepos.forEach((r) => {
-      if (r.language && r.language !== 'N/A' && r.language !== 'null') {
-        languages.add(r.language);
-      }
-    });
-    return { total, cloudflare, other, privateCount, languagesCount: languages.size };
-  }, [allRepos, filterCounts]);
-
-  // ── Filter + Sort ──
-  const sortedAndFilteredRepos = useMemo(() => {
-    let result = allRepos.filter((repo) => {
-      // Category filter
-      if (activeFilter === 'private') {
-        if (repo.visibility !== 'private') return false;
-      } else if (activeFilter !== 'all') {
-        if (repo.deploy_type !== activeFilter) return false;
-      }
-      // Search
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim();
-        return (
-          repo.name.toLowerCase().includes(q) ||
-          repo.description.toLowerCase().includes(q) ||
-          (repo.language && repo.language.toLowerCase().includes(q))
-        );
-      }
-      return true;
-    });
-
-    result.sort((a, b) => {
-      if (sortBy === 'name') return a.name.localeCompare(b.name);
-      if (sortBy === 'deploy') {
-        const order = { cloudflare: 0, other: 1, none: 2 };
-        const diff = order[a.deploy_type] - order[b.deploy_type];
-        if (diff !== 0) return diff;
-      }
-      // Default: newest first
-      return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-    });
-
-    return result;
-  }, [allRepos, activeFilter, searchQuery, sortBy]);
-
-  const pinnedList = useMemo(() => {
-    return sortedAndFilteredRepos.filter((repo) => pinnedRepos.includes(repo.name));
-  }, [sortedAndFilteredRepos, pinnedRepos]);
-
-  // ── Cognitive Chunking Groups ──
-  const chunkedGroups = useMemo(() => {
-    const groups = {
-      cloudflare: [] as Repository[],
-      other: [] as Repository[],
-      none: [] as Repository[],
-    };
-
-    // Filter out pinned ones so they only show in the Pinned section
-    const nonPinned = sortedAndFilteredRepos.filter((repo) => !pinnedRepos.includes(repo.name));
-
-    nonPinned.forEach((repo) => {
-      if (repo.deploy_type === 'cloudflare') {
-        groups.cloudflare.push(repo);
-      } else if (repo.deploy_type === 'other') {
-        groups.other.push(repo);
-      } else {
-        groups.none.push(repo);
-      }
-    });
-
-    return groups;
-  }, [sortedAndFilteredRepos, pinnedRepos]);
+  const {
+    repos,
+    isLoadingRepos,
+    dataSource,
+    searchQuery,
+    setSearchQuery,
+    activeFilter,
+    setActiveFilter,
+    sortBy,
+    setSortBy,
+    pinnedRepos,
+    handleTogglePin,
+    handleResetFilters,
+    filterCounts,
+    stats,
+    sortedAndFilteredRepos,
+    pinnedList,
+    chunkedGroups,
+  } = useRepositoryManager();
 
   const getFilterLabel = (f: FilterType): string => {
     const names: Record<FilterType, string> = {
@@ -223,11 +60,6 @@ export default function Dashboard() {
       private: '非公開',
     };
     return names[f];
-  };
-
-  const handleResetFilters = () => {
-    setSearchQuery('');
-    setActiveFilter('all');
   };
 
   return (
@@ -377,6 +209,17 @@ export default function Dashboard() {
             </div>
           </section>
 
+          {/* Fallback Warning Banner if static data is being displayed */}
+          {dataSource === 'static_fallback' && (
+            <div className="fallback-banner" role="alert">
+              <AlertTriangle className="fallback-banner-icon" size={16} />
+              <div className="fallback-banner-text">
+                <strong>静的デモデータ表示中:</strong> GitHub APIの取得制限に達したか、オフラインのためデモデータを表示しています。
+                {!isAuthenticated && ' サインインするとプライベートリポジトリを含めたリアルタイムなデータを表示できます。'}
+              </div>
+            </div>
+          )}
+
           {/* Filter Status Alert summary banner */}
           {(activeFilter !== 'all' || searchQuery) && (
             <div className="filter-summary">
@@ -385,7 +228,7 @@ export default function Dashboard() {
                 {searchQuery && (
                   <> &bull; 検索: &quot;<strong>{searchQuery}</strong>&quot;</>
                 )}
-                {' '}({sortedAndFilteredRepos.length} / {allRepos.length} 件を表示)
+                {' '}({sortedAndFilteredRepos.length} / {repos.length} 件を表示)
               </p>
               <button onClick={handleResetFilters} className="reset-btn" type="button">
                 すべてリセット
