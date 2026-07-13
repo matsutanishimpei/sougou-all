@@ -49,11 +49,15 @@ npm run dev
 ```
 
 ### 2. 環境変数の設定 (`.env.local`)
-GitHub OAuth の認証情報をローカルで使用する場合は、ルートディレクトリに以下を作成します。
+開発用の認証情報およびデフォルトのターゲットユーザーを設定するため、ルートディレクトリに以下を作成します。
 ```env
 VITE_GITHUB_CLIENT_ID=あなたのGitHubクライアントID
 GITHUB_CLIENT_SECRET=あなたのGitHubクライアントシークレット
+
+# ゲストモードで表示するデフォルトの GitHub ユーザー名（任意）
+VITE_DEFAULT_GITHUB_USER=matsutanishimpei
 ```
+
 
 ### 3. 検証コマンド
 ```bash
