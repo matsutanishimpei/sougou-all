@@ -75,7 +75,7 @@ export default function LoginScreen() {
 
         {/* Footer */}
         <p className="login-footer">
-          © 2026 matsutanishimpei — Cloudflare Pages / Workers Hub
+          © 2026 {import.meta.env.VITE_DEFAULT_GITHUB_USER || 'matsutanishimpei'} — Cloudflare Pages / Workers Hub
         </p>
       </div>
     </div>

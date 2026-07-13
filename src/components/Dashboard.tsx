@@ -30,6 +30,7 @@ import type { FilterType, SortType } from '../types';
 
 export default function Dashboard() {
   const { user, logout, isAuthenticated } = useAuth();
+  const defaultUser = import.meta.env.VITE_DEFAULT_GITHUB_USER || 'matsutanishimpei';
 
   const {
     repos,
@@ -73,24 +74,24 @@ export default function Dashboard() {
           <div className="profile-area">
             <div className="avatar-wrapper">
               <img
-                src={user?.photoURL || 'https://github.com/matsutanishimpei.png'}
-                alt={user?.displayName || 'matsutanishimpei'}
+                src={user?.photoURL || `https://github.com/${defaultUser}.png`}
+                alt={user?.displayName || defaultUser}
                 className="profile-avatar"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
-                    'https://github.com/identicons/matsutanishimpei.png';
+                    `https://github.com/identicons/${defaultUser}.png`;
                 }}
               />
               <span className="status-indicator" />
             </div>
             <div className="profile-info">
               <div className="username-wrapper">
-                <h1>{user?.displayName || 'matsutanishimpei'}</h1>
+                <h1>{user?.displayName || defaultUser}</h1>
                 {isAuthenticated && <Lock size={12} style={{ color: 'var(--private-color)', marginLeft: '4px' }} />}
               </div>
               <div className="profile-actions">
                 <a
-                  href="https://github.com/matsutanishimpei"
+                  href={`https://github.com/${defaultUser}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="profile-action-link"

@@ -19,9 +19,10 @@ export interface RepositoryProvider {
  */
 export class GitHubRepositoryProvider implements RepositoryProvider {
   async fetchRepos(token?: string | null): Promise<Repository[]> {
+    const defaultUser = import.meta.env.VITE_DEFAULT_GITHUB_USER || 'matsutanishimpei';
     const url = token
       ? 'https://api.github.com/user/repos?per_page=100&affiliation=owner,collaborator'
-      : 'https://api.github.com/users/matsutanishimpei/repos?per_page=100';
+      : `https://api.github.com/users/${defaultUser}/repos?per_page=100`;
 
     const headers: Record<string, string> = {
       Accept: 'application/vnd.github+json',
