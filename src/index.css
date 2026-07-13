@@ -850,8 +850,8 @@ button, input, select {
   z-index: 50;
   margin-bottom: 6px;
   padding: 0.85rem;
-  background: #1e293b;
-  border: 1px solid #334155;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-hover-border);
   color: var(--text-primary);
   font-size: 0.8rem;
   line-height: 1.5;
