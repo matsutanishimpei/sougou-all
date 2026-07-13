@@ -8,10 +8,12 @@
  *  - Fully responsive
  */
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../context/ThemeContext';
 import { Loader2 } from 'lucide-react';
 
 export default function LoginScreen() {
   const { loginWithGitHub, loginAsGuest, isLoading } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="login-page">
@@ -77,6 +79,10 @@ export default function LoginScreen() {
         <p className="login-footer">
           © 2026 {import.meta.env.VITE_DEFAULT_GITHUB_USER || 'matsutanishimpei'} — Cloudflare Pages / Workers Hub
         </p>
+
+        <button onClick={toggleTheme} className="login-theme-toggle-btn" type="button">
+          {theme === 'light' ? 'ダークモードへ' : 'ライトモードへ'}
+        </button>
       </div>
     </div>
   );

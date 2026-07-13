@@ -6,8 +6,60 @@
 /* ── Google Fonts ── */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ── Ergonomic Design Tokens ── */
+/* ── Ergonomic Design Tokens (Light Mode - Default) ── */
 :root {
+  --bg-color: #f8fafc;
+  --panel-bg: #ffffff;
+  --panel-border: #e2e8f0;
+  --panel-hover-border: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  --cf-color: #f97316;
+  --cf-bg: rgba(249, 115, 22, 0.08);
+  --cf-border: rgba(249, 115, 22, 0.2);
+  
+  --other-color: #06b6d4;
+  --other-bg: rgba(6, 182, 212, 0.08);
+  --other-border: rgba(6, 182, 212, 0.2);
+
+  --release-color: #a855f7;
+  --release-bg: rgba(168, 85, 247, 0.08);
+  --release-border: rgba(168, 85, 247, 0.2);
+
+  --none-color: #64748b;
+  --none-bg: rgba(100, 116, 139, 0.08);
+  --none-border: rgba(100, 116, 139, 0.2);
+
+  --private-color: #d97706;
+  --private-bg: rgba(217, 119, 6, 0.08);
+  --private-border: rgba(217, 119, 6, 0.25);
+
+  --accent: #4f46e5;
+  --accent-light: rgba(79, 70, 229, 0.08);
+  --accent-hover: #4338ca;
+
+  --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Fitts's Law Ergonomic Target Size */
+  --control-height: 48px;
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(15,23,42,0.04);
+  --shadow-lg: 0 12px 32px rgba(15,23,42,0.08);
+
+  --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Dark Mode Tokens ── */
+[data-theme="dark"] {
   --bg-color: #0b0f19;
   --panel-bg: #131b2e;
   --panel-border: #1e293b;
@@ -41,21 +93,9 @@
   --accent-light: rgba(99, 102, 241, 0.15);
   --accent-hover: #4f46e5;
 
-  --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Fitts's Law Ergonomic Target Size */
-  --control-height: 48px;
-  
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
   --shadow-lg: 0 12px 32px rgba(0,0,0,0.4);
-
-  --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Base Reset ── */
@@ -79,8 +119,8 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #334155; }
+::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--panel-hover-border); }
 
 a { text-decoration: none; color: inherit; }
 button, input, select {
@@ -232,7 +272,8 @@ button, input, select {
   transition: var(--transition);
 }
 .login-github-btn:hover:not(:disabled) {
-  background: #ffffff;
+  background: var(--accent);
+  color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
 }
@@ -273,6 +314,27 @@ button, input, select {
   color: var(--text-muted);
   font-size: 0.75rem;
   text-align: center;
+}
+
+.login-theme-toggle-btn {
+  display: block;
+  margin: 1.5rem auto 0 auto;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.login-theme-toggle-btn:hover {
+  color: var(--text-secondary);
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 /* ── Dual-Pane Layout (Ergonomic Gutenberg Gravity) ── */

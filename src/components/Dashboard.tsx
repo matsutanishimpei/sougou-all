@@ -22,6 +22,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../context/ThemeContext';
 import { useRepositoryManager } from '../hooks/useRepositoryManager';
 import RepoCard from './RepoCard';
 import type { FilterType, SortType } from '../types';
@@ -30,6 +31,7 @@ import type { FilterType, SortType } from '../types';
 
 export default function Dashboard() {
   const { user, logout, isAuthenticated } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const defaultUser = import.meta.env.VITE_DEFAULT_GITHUB_USER || 'matsutanishimpei';
 
   const {
@@ -98,6 +100,9 @@ export default function Dashboard() {
                 >
                   GitHub
                 </a>
+                <button onClick={toggleTheme} className="profile-action-link theme-toggle-btn" type="button">
+                  {theme === 'light' ? 'ダーク' : 'ライト'}
+                </button>
                 {isAuthenticated && (
                   <button onClick={logout} className="profile-action-link logout-btn" type="button">
                     ログアウト

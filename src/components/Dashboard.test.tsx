@@ -13,6 +13,13 @@ vi.mock('../hooks/useAuth', () => ({
   useAuth: vi.fn(),
 }));
 
+vi.mock('../context/ThemeContext', () => ({
+  useTheme: () => ({
+    theme: 'light',
+    toggleTheme: vi.fn(),
+  }),
+}));
+
 const mockRepo1: Repository = {
   name: 'portal-app',
   description: 'First app',

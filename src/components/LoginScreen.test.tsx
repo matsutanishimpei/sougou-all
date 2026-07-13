@@ -8,6 +8,13 @@ vi.mock('../hooks/useAuth', () => ({
   useAuth: vi.fn(),
 }));
 
+vi.mock('../context/ThemeContext', () => ({
+  useTheme: () => ({
+    theme: 'light',
+    toggleTheme: vi.fn(),
+  }),
+}));
+
 describe('LoginScreen component', () => {
   beforeEach(() => {
     vi.restoreAllMocks();

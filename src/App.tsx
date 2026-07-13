@@ -2,6 +2,7 @@
  * App root - Switches between LoginScreen and Dashboard based on auth state.
  */
 import { AuthProvider } from './context/AuthProvider';
+import { ThemeProvider } from './context/ThemeContext';
 import { useAuth } from './hooks/useAuth';
 import LoginScreen from './components/LoginScreen';
 import Dashboard from './components/Dashboard';
@@ -24,8 +25,10 @@ function AppRouter() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppRouter />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AppRouter />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
