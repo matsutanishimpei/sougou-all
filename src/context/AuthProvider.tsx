@@ -14,7 +14,8 @@ type AuthAction =
   | { type: 'LOGIN_START' }
   | { type: 'LOGIN_SUCCESS'; payload: { user: UserProfile; token: string } }
   | { type: 'LOGIN_FAILURE' }
-  | { type: 'LOGOUT' };
+  | { type: 'LOGOUT' }
+  | { type: 'GUEST_LOGIN' };
 
 // Initialize loading as true if we have a token or a redirect code to process to avoid page flash
 const hasToken = typeof window !== 'undefined' && !!localStorage.getItem('gitHubToken');
@@ -42,6 +43,13 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
       return { ...state, isLoading: false };
     case 'LOGOUT':
       return { ...initialState, isLoading: false };
+    case 'GUEST_LOGIN':
+      return {
+        user: null,
+        accessToken: null,
+        isAuthenticated: true,
+        isLoading: false,
+      };
     default:
       return state;
   }
@@ -150,8 +158,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     handleAuth();
   }, []);
 
+  const loginAsGuest = useCallback(() => {
+    dispatch({ type: 'GUEST_LOGIN' });
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ ...state, loginWithGitHub, logout }}>
+    <AuthContext.Provider value={{ ...state, loginWithGitHub, logout, loginAsGuest }}>
       {children}
     </AuthContext.Provider>
   );

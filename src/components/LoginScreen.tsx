@@ -11,7 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Loader2 } from 'lucide-react';
 
 export default function LoginScreen() {
-  const { loginWithGitHub, isLoading } = useAuth();
+  const { loginWithGitHub, loginAsGuest, isLoading } = useAuth();
 
   return (
     <div className="login-page">
@@ -61,6 +61,15 @@ export default function LoginScreen() {
             <span>
               {isLoading ? 'サインイン中...' : 'GitHubでサインイン'}
             </span>
+          </button>
+
+          <button
+            className="login-guest-btn"
+            onClick={loginAsGuest}
+            disabled={isLoading}
+            type="button"
+          >
+            ゲストとして閲覧する
           </button>
         </div>
 

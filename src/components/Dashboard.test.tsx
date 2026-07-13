@@ -58,6 +58,7 @@ describe('Dashboard component', () => {
       accessToken: null,
       isLoading: false,
       loginWithGitHub: vi.fn(),
+      loginAsGuest: vi.fn(),
     });
 
     vi.mocked(useRepositoryManager).mockReturnValue(defaultHookMock);

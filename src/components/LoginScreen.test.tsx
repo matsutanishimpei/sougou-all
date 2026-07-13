@@ -13,10 +13,12 @@ describe('LoginScreen component', () => {
     vi.restoreAllMocks();
   });
 
-  it('should render login card details and button', () => {
+  it('should render login card details and buttons', () => {
     const loginWithGitHub = vi.fn();
+    const loginAsGuest = vi.fn();
     vi.mocked(useAuth).mockReturnValue({
       loginWithGitHub,
+      loginAsGuest,
       isLoading: false,
       user: null,
       isAuthenticated: false,
@@ -33,13 +35,21 @@ describe('LoginScreen component', () => {
     expect(loginButton).toBeInTheDocument();
     expect(loginButton).not.toBeDisabled();
 
+    const guestButton = screen.getByRole('button', { name: 'ゲストとして閲覧する' });
+    expect(guestButton).toBeInTheDocument();
+    expect(guestButton).not.toBeDisabled();
+
     fireEvent.click(loginButton);
     expect(loginWithGitHub).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(guestButton);
+    expect(loginAsGuest).toHaveBeenCalledTimes(1);
   });
 
   it('should render loading spinner and disabled state when loading', () => {
     vi.mocked(useAuth).mockReturnValue({
       loginWithGitHub: vi.fn(),
+      loginAsGuest: vi.fn(),
       isLoading: true,
       user: null,
       isAuthenticated: false,
@@ -52,5 +62,8 @@ describe('LoginScreen component', () => {
     const loadingButton = screen.getByRole('button', { name: 'サインイン中...' });
     expect(loadingButton).toBeInTheDocument();
     expect(loadingButton).toBeDisabled();
+
+    const guestButton = screen.getByRole('button', { name: 'ゲストとして閲覧する' });
+    expect(guestButton).toBeDisabled();
   });
 });

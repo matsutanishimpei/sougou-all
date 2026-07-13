@@ -67,6 +67,7 @@ describe('useRepositoryManager hook', () => {
       isLoading: false,
       loginWithGitHub: vi.fn(),
       logout: vi.fn(),
+      loginAsGuest: vi.fn(),
     });
 
     vi.mocked(getRepositories).mockResolvedValue({

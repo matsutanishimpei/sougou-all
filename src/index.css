@@ -241,6 +241,33 @@ button, input, select {
   cursor: not-allowed;
 }
 
+.login-guest-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--panel-border);
+  height: var(--control-height);
+  padding: 0 2rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.login-guest-btn:hover:not(:disabled) {
+  border-color: var(--panel-hover-border);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.02);
+}
+.login-guest-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .login-footer {
   margin-top: 3rem;
   color: var(--text-muted);

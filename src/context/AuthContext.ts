@@ -11,6 +11,7 @@ export interface AuthState {
 export interface AuthContextValue extends AuthState {
   loginWithGitHub: () => Promise<void>;
   logout: () => void;
+  loginAsGuest: () => void;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);

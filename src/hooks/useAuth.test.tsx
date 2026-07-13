@@ -28,5 +28,6 @@ describe('useAuth hook', () => {
     expect(result.current.user).toBeNull();
     expect(typeof result.current.loginWithGitHub).toBe('function');
     expect(typeof result.current.logout).toBe('function');
+    expect(typeof result.current.loginAsGuest).toBe('function');
   });
 });
