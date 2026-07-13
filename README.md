@@ -1,77 +1,74 @@
 # Sougou Dashboard (sougou-all)
 
-Cloudflare Pages および Workers でデプロイされた自作リポジトリ・デプロイ状況を一元管理するダッシュボードポータル。
+Cloudflare Pages / Workers にデプロイされた自作リポジトリの稼働状況や、GitHub の公開・非公開プロジェクトを一元的に閲覧できるポートフォリオ・ダッシュボードポータル。
 
-## 🔗 デプロイ先
+## 🔗 公開 URL
 - **Live URL**: [https://sougou-all.pages.dev/](https://sougou-all.pages.dev/)
 
 ---
 
-## ✨ 主な機能
+## 📖 ご利用ガイド (一般ユーザー向け)
 
-- **リポジトリ一元管理**: 
-  - パブリック/プライベート（認証時）のリポジトリ情報を GitHub API 経由で取得し表示。
-  - 最新のコミット日時や使用言語をタグで色分け表示。
-- **インテリジェントなデータフェッチ & フォールバック**:
-  - API制限やオフライン時は自動で静的デモデータへフォールバックし、バナー警告を表示する耐障害性設計。
-- **フィルタとソート機能**:
-  - デプロイ種別（Cloudflare / その他プラットフォーム / 未デプロイツール）やプライベート設定での素早い絞り込み。
-  - 最終更新日順、アルファベット順、デプロイ優先でのソート。
-- **ピン留め（Pin）機能**:
-  - 頻繁にアクセスするリポジトリをグリッド最上部へ固定（`localStorage` にて永続化）。
-- **セキュアな GitHub OAuth 認証**:
-  - ローカル開発（Vite Dev Proxy）および本番環境（Cloudflare Pages Functions）に最適化されたセキュリティトークン交換方式。
-- **人間工学（HCI/エルゴノミクス）UI**:
-  - Hick's Law（ヒックの法則）に基づくカテゴリー分類。
-  - Fitts's Law（フィッツの法則）に基づく 48px クリックターゲット。
-  - 目に優しい流麗なダークモードテーマ。
+本ダッシュボードは、一般公開されているパブリックリポジトリやデプロイ先を自由に閲覧できるほか、アカウント認証によって非公開プロジェクトも含めて一元管理できるパーソナルポータルです。
 
----
+### 1. 閲覧モードについて
+* **一般ゲストモード（未サインイン）**:
+  - `browser-sensors` や `family-shopper` などのパブリック（一般公開）リポジトリおよびそのデプロイ状況をすべて閲覧できます。
+  - 各カードの **「Visit Site」** から実際の稼働デモサイトへ、**「View Code」** から GitHub のソースコードへ直接アクセスできます。
+* **管理者・開発者認証モード（GitHub サインイン）**:
+  - 画面左下の「GitHubでサインイン」から連携ログインすると、ログインユーザーが所有・コラボレートしている**非公開（プライベート）リポジトリ**もリストに自動追加されます。
 
-## 🛠 テクノロジースタック
+### 2. 便利機能の使い方
+* **リポジトリの検索**:
+  - 左メニューの検索ボックスから「TypeScript」「Rust」などの言語名や、キーワードを入力するだけでリアルタイムに絞り込めます。
+* **カテゴリー分類によるフィルタ**:
+  - `Cloudflare`（Pages/Workersへのデプロイ）、`他デプロイ`（GitHub Pagesなど）、`ツール他`（ライブラリや未デプロイのリポジトリ）など、目的のプラットフォームごとにワンクリックで分類できます。
+* **ピン留め機能 (Pin)**:
+  - 各リポジトリカードの右上にある **「ピン留め（ピンマーク）」** をクリックすると、最上部の専用セクションに固定表示されます。よく閲覧するサイトのブックマークとして便利です（ブラウザの LocalStorage に保存されます）。
 
-- **コア**: React 19, TypeScript 6, Vite 8
-- **スタイリング**: Vanilla CSS (デザインシステム設計)
-- **テスト**: Vitest, jsdom, React Testing Library (カバレッジ率 85% 以上)
-- **CI/CD**: GitHub Actions (Lint, Type-check, test, deploy 完備)
-- **バックエンド/プロキシ**: Cloudflare Pages Functions
+### 3. カードバッジの意味
+各リポジトリカードの上部には、以下の状況を示すバッジが表示されます。
+* <span style="color: #f97316;">◆ Cloudflare</span>: Cloudflare Pages または Workers にホストされた Web サービス。
+* <span style="color: #06b6d4;">◆ Deployed</span>: GitHub Pages やその他のホスティングにデプロイされた Web サービス。
+* <span style="color: #64748b;">◆ Repository</span>: デプロイされていないパッケージ、ライブラリ、またはコマンドラインツール。
+* <span style="color: #f59e0b;">🔒 Private</span>: 非公開（認証中のみ表示されるプロジェクト）。
 
 ---
 
-## 🚀 開発セットアップ
+## 🛠 開発者向けセットアップ / Contribution
 
-### 1. 依存関係のインストール
+本プロジェクトのローカル開発、テスト、およびデプロイ設計に関する情報です。
+
+### 1. ローカル開発環境の起動
 ```bash
+# 依存関係のインストール
 npm install
+
+# ローカル開発サーバー起動
+npm run dev
 ```
 
-### 2. 環境変数の設定
-プロジェクトルートに `.env.local` を作成し、GitHub OAuth アプリケーションの認証情報を設定します。
+### 2. 環境変数の設定 (`.env.local`)
+GitHub OAuth の認証情報をローカルで使用する場合は、ルートディレクトリに以下を作成します。
 ```env
 VITE_GITHUB_CLIENT_ID=あなたのGitHubクライアントID
 GITHUB_CLIENT_SECRET=あなたのGitHubクライアントシークレット
 ```
 
-### 3. ローカル開発サーバー起動
+### 3. 検証コマンド
 ```bash
-npm run dev
-```
-
-### 4. 静的コード解析（Linter）
-```bash
+# 静的コード解析 (Linter)
 npm run lint
-```
 
-### 5. ビルドおよびコンパイルチェック
-```bash
+# ビルド・タイプチェック
 npm run build
-```
 
-### 6. テスト実行 & カバレッジ確認
-```bash
-# テストの実行
+# テスト実行 & カバレッジ測定
 npm run test
-
-# カバレッジ測定
 npm run test:coverage
 ```
+
+### 4. CI/CD および自動デプロイ
+* **CI (GitHub Actions)**: すべてのプッシュ・PR で `Lint` -> `Build` -> `Vitest` が自動実行されます。
+* **CD (Cloudflare Pages)**: `main` ブランチへのプッシュで自動的に本番ビルドが行われ、[https://sougou-all.pages.dev/](https://sougou-all.pages.dev/) へ自動デプロイされます。
+* テスト設計やアーキテクチャの詳細は [CONTRIBUTING.md](file:///d:/dev/sougou-all/CONTRIBUTING.md) および [distribution.md](file:///d:/dev/sougou-all/distribution.md) を参照してください。
