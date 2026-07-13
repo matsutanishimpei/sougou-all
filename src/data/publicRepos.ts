@@ -9,6 +9,19 @@ import type { Repository } from '../types';
 
 export const PUBLIC_REPO_DATA: Repository[] = [
   {
+    name: "sougou-all",
+    description: "Cloudflare Pages/Workers Hub として構築された、ポートフォリオ・リポジトリ・デプロイ状況を一元管理するダッシュボードポータル。VitestテストとCI/CD完備。",
+    html_url: "https://github.com/matsutanishimpei/sougou-all",
+    homepage: "https://sougou-all.pages.dev/",
+    language: "TypeScript",
+    updated_at: "2026-07-13",
+    deploy_type: "cloudflare",
+    release_url: "https://github.com/matsutanishimpei/sougou-all/releases/tag/v1.0.0",
+    release_tag: "v1.0.0",
+    open_issues_count: 0,
+    visibility: "public",
+  },
+  {
     name: "browser-sensors",
     description: "ブラウザ/デバイスの各種センサーAPI（カメラ、マイク、位置情報、加速度など）を一画面で動作確認できるテスト用Webアプリ。Start/Stopも個別制御。",
     html_url: "https://github.com/matsutanishimpei/browser-sensors",

@@ -1,7 +1,13 @@
 {
   "name": "sougou-all",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "リポジトリ・デプロイ状況を一元管理するダッシュボードポータル (Cloudflare Pages/Workers Hub)",
+  "homepage": "https://sougou-all.pages.dev/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matsutanishimpei/sougou-all.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
