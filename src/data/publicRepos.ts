@@ -10,7 +10,7 @@ import type { Repository } from '../types';
 export const PUBLIC_REPO_DATA: Repository[] = [
   {
     name: "sougou-all",
-    description: "Cloudflare Pages/Workers Hub として構築された、ポートフォリオ・リポジトリ・デプロイ状況を一元管理するダッシュボードポータル。VitestテストとCI/CD完備。",
+    description: "Cloudflare Pages/Workers Hub として構築された、ポートフォリオ・リポジトリ・デプロイ状況を一元管理するダッシュボードポータル。VitestテストとCI/CD完備。 [Backend: https://sougou-all.pages.dev]",
     html_url: "https://github.com/matsutanishimpei/sougou-all",
     homepage: "https://sougou-all.pages.dev/",
     language: "TypeScript",
@@ -18,6 +18,19 @@ export const PUBLIC_REPO_DATA: Repository[] = [
     deploy_type: "cloudflare",
     release_url: "https://github.com/matsutanishimpei/sougou-all/releases/tag/v1.0.0",
     release_tag: "v1.0.0",
+    open_issues_count: 0,
+    visibility: "public",
+  },
+  {
+    name: "childrens-habits-management",
+    description: "子どもの生活習慣（ハビット）管理アプリケーション。Hono (Backend) + Vite/React (Frontend) + Zod (Shared) による型安全モノレポ構成。 [Backend: https://childrens-habits-backend.dear-old-days.workers.dev]",
+    html_url: "https://github.com/matsutanishimpei/childrens-habits-management",
+    homepage: "https://childrens-habits-frontend.pages.dev/",
+    language: "TypeScript",
+    updated_at: "2026-07-16",
+    deploy_type: "cloudflare",
+    release_url: "",
+    release_tag: "",
     open_issues_count: 0,
     visibility: "public",
   },
@@ -36,7 +49,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "class-tracking",
-    description: "提出物管理を、大人数（50名以上）でも一画面で高速・高密度に把握できる管理システム。Hono＋Vite/React＋Zodで型安全に構築。",
+    description: "提出物管理を、大人数（50名以上）でも一画面で高速・高密度に把握できる管理システム。Hono＋Vite/React＋Zodで型安全に構築。 [Backend: https://class-tracking.dear-old-days.workers.dev/]",
     html_url: "https://github.com/matsutanishimpei/class-tracking",
     homepage: "https://class-tracking.dear-old-days.workers.dev/",
     language: "TypeScript",
@@ -62,7 +75,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "family-shopper",
-    description: "家族で共有できるリアルタイムなお買い物リストSPA。写真付きアイテム管理やカテゴリ絞り込み、家族アカウント発行に対応。Cloudflare Workers＋D1＋Cloudinaryで構築。",
+    description: "家族で共有できるリアルタイムなお買い物リストSPA。写真付きアイテム管理やカテゴリ絞り込み、家族アカウント発行に対応。Cloudflare Workers＋D1＋Cloudinaryで構築。 [Backend: https://family-shopper.pages.dev]",
     html_url: "https://github.com/matsutanishimpei/family-shopper",
     homepage: "https://family-shopper.pages.dev/login",
     language: "TypeScript",
@@ -75,7 +88,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "m-komarabo-v2",
-    description: "松谷の試作室：困りごと投稿「Komarabo」と尖った作品展示「Waku-Waku Lab」を備えた試作プラットフォーム。Cloudflare Pages＋Hono＋D1で運用。",
+    description: "松谷の試作室：困りごと投稿「Komarabo」と尖った作品展示「Waku-Waku Lab」を備えた試作プラットフォーム。Cloudflare Pages＋Hono＋D1で運用。 [Backend: https://d648a9fc.m-komarabo-v2.pages.dev]",
     html_url: "https://github.com/matsutanishimpei/m-komarabo-v2",
     homepage: "https://d648a9fc.m-komarabo-v2.pages.dev/",
     language: "HTML",
@@ -127,7 +140,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "real-wall",
-    description: "要件と制約（壁）からLLMが論点を抽出し、設計者の意思決定を組み込んで設計レポートPDF（ハッシュ付き）を生成する、協働型の設計検討支援ツール。",
+    description: "要件と制約（壁）からLLMが論点を抽出し、設計者の意思決定を組み込んで設計レポートPDF（ハッシュ付き）を生成する、協働型の設計検討支援ツール。 [Backend: https://real-wall.pages.dev]",
     html_url: "https://github.com/matsutanishimpei/real-wall",
     homepage: "https://real-wall.pages.dev/",
     language: "TypeScript",
@@ -140,7 +153,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "sheets-and-check",
-    description: "Seats & Check Studio - リアルタイム座席配置・理解度監視システム",
+    description: "Seats & Check Studio - リアルタイム座席配置・理解度監視システム [Backend: https://my-app-backend.dear-old-days.workers.dev]",
     html_url: "https://github.com/matsutanishimpei/sheets-and-check",
     homepage: "https://seets-check.pages.dev/",
     language: "TypeScript",
@@ -166,7 +179,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "sougou",
-    description: "🚀 matsutanishimpei のポータルサイト — 全リポジトリ・デプロイ先・リリースを一元管理するダッシュボード。Cloudflare / GitHub Pages のデプロイ状況やリリースバイナリへのリンクをカード形式で可視化。",
+    description: "🚀 matsutanishimpei のポータルサイト — 全リポジトリ・デプロイ先・リリースを一元管理するダッシュボード。Cloudflare / GitHub Pages のデプロイ状況やリリースバイナリへのリンクをカード形式で可視化。 [Backend: https://sougou-dl8.pages.dev]",
     html_url: "https://github.com/matsutanishimpei/sougou",
     homepage: "https://sougou-dl8.pages.dev/",
     language: "CSS",
@@ -192,7 +205,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "yojitsu-app",
-    description: "学生の就職活動を「カンバン形式」で見える化して管理するWebアプリ。Cloudflare Workers＋Hono＋D1で動作し、ログインや企業検索、カード操作などを提供。",
+    description: "学生の就職活動を「カンバン形式」で見える化して管理するWebアプリ。Cloudflare Workers＋Hono＋D1で動作し、ログインや企業検索、カード操作などを提供。 [Backend: https://yojitsu-app.dear-old-days.workers.dev]",
     html_url: "https://github.com/matsutanishimpei/yojitsu-app",
     homepage: "https://yojitsu-app.dear-old-days.workers.dev/",
     language: "TypeScript",
@@ -205,7 +218,7 @@ export const PUBLIC_REPO_DATA: Repository[] = [
   },
   {
     name: "yojitsuSP",
-    description: "クラス担任教員が学生の就職活動状況をリアルタイムに把握する型安全なフルスタックWebアプリケーション",
+    description: "クラス担任教員が学生の就職活動状況をリアルタイムに把握する型安全なフルスタックWebアプリケーション [Backend: https://yojitsu-sp-backend.dear-old-days.workers.dev]",
     html_url: "https://github.com/matsutanishimpei/yojitsuSP",
     homepage: "https://yojitsu-sp.pages.dev/",
     language: "TypeScript",

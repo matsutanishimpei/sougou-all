@@ -18,6 +18,7 @@ import {
   Lock,
   Calendar,
   Pin,
+  Server,
 } from 'lucide-react';
 import type { Repository } from '../types';
 
@@ -188,6 +189,17 @@ export default function RepoCard({ repo, isPinned, onTogglePin }: RepoCardProps)
       <DescriptionTooltip text={repo.description} />
       <div className="card-actions">
         {visitBtn}
+        {repo.backend_url && (
+          <a
+            href={repo.backend_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline btn-backend"
+            title={`Backend URL: ${repo.backend_url}`}
+          >
+            <Server size={14} /> Backend API
+          </a>
+        )}
         <a
           href={repo.html_url}
           target="_blank"

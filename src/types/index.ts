@@ -23,6 +23,8 @@ export interface Repository {
   open_issues_count: number;
   /** Extended field: visibility flag for auth-gated content. */
   visibility: RepoVisibility;
+  /** Optional backend API URL */
+  backend_url?: string;
 }
 
 /** Authenticated user profile from Google OAuth. */

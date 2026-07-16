@@ -63,6 +63,26 @@ export class GitHubRepositoryProvider implements RepositoryProvider {
   }
 }
 
+/**
+ * Processes a repository to extract backend_url from its description if present in [Backend: URL] format,
+ * and strips it from the description for clean UI display.
+ */
+export function processRepository(repo: Repository): Repository {
+  const rawDesc = repo.description || '説明なし';
+  const backendMatch = rawDesc.match(/\[Backend:\s*(https?:\/\/[^\]\s]+)\]/);
+  if (backendMatch) {
+    return {
+      ...repo,
+      description: rawDesc.replace(/\[Backend:\s*(https?:\/\/[^\]\s]+)\]/, '').trim(),
+      backend_url: repo.backend_url || backendMatch[1],
+    };
+  }
+  return {
+    ...repo,
+    description: rawDesc,
+  };
+}
+
 // Default provider instance
 const defaultProvider = new GitHubRepositoryProvider();
 
@@ -77,7 +97,8 @@ export async function getRepositories(
   provider: RepositoryProvider = defaultProvider
 ): Promise<RepositoryFetchResult> {
   try {
-    const repos = await provider.fetchRepos(token);
+    const rawRepos = await provider.fetchRepos(token);
+    const repos = rawRepos.map(processRepository);
     return {
       repos,
       dataSource: 'api',
@@ -86,9 +107,11 @@ export async function getRepositories(
     console.warn('Repository service fetch failed, using static fallback:', error);
     
     // Determine fallback content based on auth state (token presence)
-    const repos = token
+    const rawFallback = token
       ? [...PUBLIC_REPO_DATA, ...PRIVATE_REPO_DATA]
       : PUBLIC_REPO_DATA;
+      
+    const repos = rawFallback.map(processRepository);
       
     return {
       repos,

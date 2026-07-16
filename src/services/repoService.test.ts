@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GitHubRepositoryProvider, getRepositories } from './repoService';
+import { GitHubRepositoryProvider, getRepositories, processRepository } from './repoService';
 import { PUBLIC_REPO_DATA } from '../data/publicRepos';
 import { PRIVATE_REPO_DATA } from '../data/privateRepos';
 
@@ -94,13 +94,13 @@ describe('repoService', () => {
 
   describe('getRepositories wrapper', () => {
     it('should return API data on successful provider resolve', async () => {
-      const mockRepos = [{ name: 'test' } as any];
+      const mockRepos = [{ name: 'test', description: 'desc' } as any];
       const mockProvider = {
         fetchRepos: vi.fn().mockResolvedValue(mockRepos),
       };
 
       const result = await getRepositories('token', mockProvider);
-      expect(result.repos).toEqual(mockRepos);
+      expect(result.repos).toEqual(mockRepos.map(processRepository));
       expect(result.dataSource).toBe('api');
       expect(mockProvider.fetchRepos).toHaveBeenCalledWith('token');
     });
@@ -111,7 +111,7 @@ describe('repoService', () => {
       };
 
       const result = await getRepositories(null, mockProvider);
-      expect(result.repos).toEqual(PUBLIC_REPO_DATA);
+      expect(result.repos).toEqual(PUBLIC_REPO_DATA.map(processRepository));
       expect(result.dataSource).toBe('static_fallback');
     });
 
@@ -119,9 +119,8 @@ describe('repoService', () => {
       const mockProvider = {
         fetchRepos: vi.fn().mockRejectedValue(new Error('Fetch failed')),
       };
-
       const result = await getRepositories('some-token', mockProvider);
-      expect(result.repos).toEqual([...PUBLIC_REPO_DATA, ...PRIVATE_REPO_DATA]);
+      expect(result.repos).toEqual([...PUBLIC_REPO_DATA, ...PRIVATE_REPO_DATA].map(processRepository));
       expect(result.dataSource).toBe('static_fallback');
     });
   });
