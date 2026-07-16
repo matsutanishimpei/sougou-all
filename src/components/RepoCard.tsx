@@ -108,7 +108,7 @@ export default function RepoCard({ repo, isPinned, onTogglePin }: RepoCardProps)
         let pathname = parsed.pathname.replace(/\/$/, '');
         if (pathname === '/login') pathname = '';
         return `${parsed.protocol}//${parsed.host}${pathname}`;
-      } catch (e) {
+      } catch {
         return url.replace(/\/$/, '').replace(/\/login$/, '');
       }
     };
