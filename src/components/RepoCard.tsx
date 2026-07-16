@@ -99,6 +99,22 @@ export default function RepoCard({ repo, isPinned, onTogglePin }: RepoCardProps)
   const displayLang = repo.language && repo.language !== 'null' ? repo.language : 'N/A';
   const langClass = getLanguageClass(repo.language);
 
+  // Check if backend_url is different from homepage to avoid redundant buttons
+  const hasDistinctBackend = (() => {
+    if (!repo.backend_url || !repo.homepage) return false;
+    const normalize = (url: string) => {
+      try {
+        const parsed = new URL(url);
+        let pathname = parsed.pathname.replace(/\/$/, '');
+        if (pathname === '/login') pathname = '';
+        return `${parsed.protocol}//${parsed.host}${pathname}`;
+      } catch (e) {
+        return url.replace(/\/$/, '').replace(/\/login$/, '');
+      }
+    };
+    return normalize(repo.backend_url) !== normalize(repo.homepage);
+  })();
+
   // Deploy badge
   let deployBadge: React.ReactNode = null;
   let visitBtn: React.ReactNode = null;
@@ -189,7 +205,7 @@ export default function RepoCard({ repo, isPinned, onTogglePin }: RepoCardProps)
       <DescriptionTooltip text={repo.description} />
       <div className="card-actions">
         {visitBtn}
-        {repo.backend_url && (
+        {hasDistinctBackend && repo.backend_url && (
           <a
             href={repo.backend_url}
             target="_blank"
