@@ -1,101 +1,103 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Ergonomic & Academic UI Stylesheet
-   Design: Ergonomics, Cognitive Load Reduction, Fitts's Law (48px targets)
+   洗練された和風 UI スタイルシート (Sleek Traditional Japanese Design)
+   Design: Traditional Japanese Colors, Noto Serif JP, Minimal Layout
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700;900&family=Noto+Sans+JP:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ── Ergonomic Design Tokens (Light Mode - Default) ── */
+/* ── 和風カラー & トークン (Light Mode - 白磁 & 砂色) ── */
 :root {
-  --bg-color: #f8fafc;
-  --panel-bg: #ffffff;
-  --panel-border: #e2e8f0;
-  --panel-hover-border: #cbd5e1;
+  --bg-color: #f5f3ed; /* 砂色 (Sunairo) / 和紙のぬくもり */
+  --panel-bg: #faf9f6; /* 生成り色 (Kinariko) */
+  --panel-border: #e4e1d8; /* 薄土色 (Usutsucheiro) */
+  --panel-hover-border: #b8b2a3; /* 泥色 (Doroiro) */
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-primary: #1c1c1c; /* 墨色 (Sumiiro) */
+  --text-secondary: #4a4a4a; /* 消炭色 (Keshizumiiro) */
+  --text-muted: #8c867a; /* 利休鼠 (Rikyunezumi) */
 
-  --cf-color: #f97316;
-  --cf-bg: rgba(249, 115, 22, 0.08);
-  --cf-border: rgba(249, 115, 22, 0.2);
+  /* Traditional Japanese Category Accent Colors */
+  --cf-color: #8d583b; /* 柿渋色 (Kakishibuiro) - Cloudflare Pages */
+  --cf-bg: rgba(141, 88, 59, 0.05);
+  --cf-border: rgba(141, 88, 59, 0.2);
   
-  --other-color: #06b6d4;
-  --other-bg: rgba(6, 182, 212, 0.08);
-  --other-border: rgba(6, 182, 212, 0.2);
+  --other-color: #4a6b5d; /* 苔色 (Kokeiro) - Other Deployed */
+  --other-bg: rgba(74, 107, 93, 0.05);
+  --other-border: rgba(74, 107, 93, 0.2);
 
-  --release-color: #a855f7;
-  --release-bg: rgba(168, 85, 247, 0.08);
-  --release-border: rgba(168, 85, 247, 0.2);
+  --release-color: #7a587f; /* 桔梗色 (Kikyoiro) - Release */
+  --release-bg: rgba(122, 88, 127, 0.05);
+  --release-border: rgba(122, 88, 127, 0.2);
 
-  --none-color: #64748b;
-  --none-bg: rgba(100, 116, 139, 0.08);
-  --none-border: rgba(100, 116, 139, 0.2);
+  --none-color: #5c6266; /* 鈍色 (Nibiiro) - Non-deployed */
+  --none-bg: rgba(92, 98, 102, 0.05);
+  --none-border: rgba(92, 98, 102, 0.2);
 
-  --private-color: #d97706;
-  --private-bg: rgba(217, 119, 6, 0.08);
-  --private-border: rgba(217, 119, 6, 0.25);
+  --private-color: #ac7e2c; /* 金茶 (Kincha) - Private */
+  --private-bg: rgba(172, 126, 44, 0.05);
+  --private-border: rgba(172, 126, 44, 0.2);
 
-  --accent: #4f46e5;
-  --accent-light: rgba(79, 70, 229, 0.08);
-  --accent-hover: #4338ca;
+  --accent: #384e63; /* 藍鉄 (Aitetsu) - Primary Buttons/Highlights */
+  --accent-light: rgba(56, 78, 99, 0.06);
+  --accent-hover: #263647;
 
-  --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-main: 'Noto Sans JP', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Noto Serif JP', 'Georgia', serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Fitts's Law Ergonomic Target Size */
-  --control-height: 48px;
+  /* Compact elegance target size */
+  --control-height: 42px;
   
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 4px; /* More angular traditional look */
+  --radius-md: 6px;
+  --radius-lg: 8px;
   
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 12px rgba(15,23,42,0.04);
-  --shadow-lg: 0 12px 32px rgba(15,23,42,0.08);
+  --shadow-sm: 0 1px 3px rgba(44, 44, 40, 0.04);
+  --shadow-md: 0 4px 16px rgba(44, 44, 40, 0.04);
+  --shadow-lg: 0 8px 32px rgba(44, 44, 40, 0.08);
 
-  --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* ── Dark Mode Tokens ── */
+/* ── 和風カラー & トークン (Dark Mode - 漆黒 & 煤竹) ── */
 [data-theme="dark"] {
-  --bg-color: #0b0f19;
-  --panel-bg: #131b2e;
-  --panel-border: #1e293b;
-  --panel-hover-border: #334155;
+  --bg-color: #121316; /* 漆黒 (Shikkoku) */
+  --panel-bg: #18191c; /* 炭黒 (Sumikuro) */
+  --panel-border: #292b30; /* 黒曜石 (Kokuyoseki) */
+  --panel-hover-border: #3b3e45;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #e6e3dd; /* 白練 (Shiraneri) */
+  --text-secondary: #9c978f; /* 灰白 (Haibaku) */
+  --text-muted: #6b6862; /* 煤色 (Susuiro) */
 
-  --cf-color: #f97316;
-  --cf-bg: rgba(249, 115, 22, 0.1);
-  --cf-border: rgba(249, 115, 22, 0.25);
+  --cf-color: #b0785c;
+  --cf-bg: rgba(176, 120, 92, 0.08);
+  --cf-border: rgba(176, 120, 92, 0.25);
   
-  --other-color: #06b6d4;
-  --other-bg: rgba(6, 182, 212, 0.1);
-  --other-border: rgba(6, 182, 212, 0.25);
+  --other-color: #668c7c;
+  --other-bg: rgba(102, 140, 124, 0.08);
+  --other-border: rgba(102, 140, 124, 0.25);
 
-  --release-color: #a855f7;
-  --release-bg: rgba(168, 85, 247, 0.1);
-  --release-border: rgba(168, 85, 247, 0.25);
+  --release-color: #9a789f;
+  --release-bg: rgba(154, 120, 159, 0.08);
+  --release-border: rgba(154, 120, 159, 0.25);
 
-  --none-color: #64748b;
-  --none-bg: rgba(100, 116, 139, 0.1);
-  --none-border: rgba(100, 116, 139, 0.25);
+  --none-color: #7b848c;
+  --none-bg: rgba(123, 132, 140, 0.08);
+  --none-border: rgba(123, 132, 140, 0.25);
 
-  --private-color: #f59e0b;
-  --private-bg: rgba(245, 158, 11, 0.1);
-  --private-border: rgba(245, 158, 11, 0.25);
+  --private-color: #cfa45d;
+  --private-bg: rgba(207, 164, 93, 0.08);
+  --private-border: rgba(207, 164, 93, 0.25);
 
-  --accent: #6366f1;
-  --accent-light: rgba(99, 102, 241, 0.15);
-  --accent-hover: #4f46e5;
+  --accent: #5e7c94; /* 藍鼠 (Ainezu) */
+  --accent-light: rgba(94, 124, 148, 0.12);
+  --accent-hover: #728fa7;
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
-  --shadow-lg: 0 12px 32px rgba(0,0,0,0.4);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
 }
 
 /* ── Base Reset ── */
@@ -114,6 +116,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* Heading Typography Override for Traditional Japanese Style */
+h1, h2, h3, h4, h5, h6, .repo-title, .sidebar-title, .logo-title, .metric-value, .login-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
 }
 
 /* Scrollbar */
@@ -154,7 +162,7 @@ button, input, select {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, rgba(11, 15, 25, 1) 90%);
+  background: radial-gradient(circle at 10% 20%, rgba(96, 123, 142, 0.1) 0%, #121316 90%);
   position: relative;
   overflow: hidden;
   padding: 2rem;
@@ -274,8 +282,8 @@ button, input, select {
 .login-github-btn:hover:not(:disabled) {
   background: var(--accent);
   color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+  /* Removed translateY to prevent flickering */
+  box-shadow: var(--shadow-md);
 }
 .login-github-btn:disabled {
   opacity: 0.5;
@@ -709,7 +717,7 @@ button, input, select {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transition: var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
@@ -718,7 +726,7 @@ button, input, select {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 2px; /* Thinner border for elegance */
   transition: var(--transition);
 }
 .repo-card.cloudflare::before { background: var(--cf-color); }
@@ -728,8 +736,8 @@ button, input, select {
 
 .repo-card:hover {
   border-color: var(--panel-hover-border);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  /* Removed translateY to prevent flickering/jumping */
 }
 
 .card-header {
@@ -857,6 +865,7 @@ button, input, select {
   line-height: 1.5;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-lg);
+  pointer-events: none; /* Avoid tooltip hover flickering loops */
 }
 
 /* Card Actions (Fitts's Law 48px height buttons) */
